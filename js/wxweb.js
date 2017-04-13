@@ -1892,10 +1892,12 @@ function luckyBetSumbit(){
 							$("#cov0").find('img').attr('src','images/jdek1.png');
 							$("#cov1").html("恭喜您，获得<font class='yellow'>"+level[data.l]+"等奖</font>"+name[data.l]);
 							$("#cov2").html(level[data.l]+"等奖"+name[data.l]);
+							$("#no_img").hide();
 						}else{
 							$("#cov0").find('img').attr('src','images/jdek1.png');
 							$("#cov1").html('');
 							$("#cov2").html(name[data.l]);
+							$("#no_img").show();
 						}
 						$("#cov").show(); 
 					} 
