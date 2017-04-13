@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>投注详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<style>
+			body {
+				/*background-color: #1a7b4e;*/
+				color: #fff;
+				margin-bottom: 30px;
+				background: linear-gradient(#227c51,#227c51 ,#117e75 60%, #227c51);
+			}
+			
+			.none {
+				display: none;
+			}
+			
+			#logo_img {
+				width: 100%;
+			}
+			
+			.info {
+				margin: 0 20px 80px;
+			}
+			
+			.info_content {
+				border-bottom: 1px solid #1a569d;
+			}
+			
+			.info_btn span {
+				background-color: #1a569d;
+				padding: .3em .5em;
+				border-radius: 5px;
+			}
+			
+			.info_content {
+				line-height: 2;
+			}
+			
+			.table tbody tr {
+				border-bottom: 0.5px solid #35c2a2;
+				box-shadow: 0px 1px 0px 0px #fff;
+			}
+			
+			.table tbody tr td {
+				border-top: 0;
+			}
+			
+			.zj_list tr td img {
+				width: 50%;
+			}
+			
+			.zj_list tr td {
+				vertical-align: middle !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<img src="images/logo2.jpg" id="logo_img" />
+		<div class="info">
+			<p class="info_content" style="color: #ffcb57;font-size: 16px;">你的战绩不错哦！</p>
+			<table class="table">
+				<tbody class="zj_list">
+				</tbody>
+			</table>
+		</div>
+		<footer style="position: fixed;bottom: 0;color: #E3E3E3;text-align: center;width: 100%;">
+			<p class="shanghua none">上划显示更多</p>
+		</footer>
+
+		<script src="js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				var _id, _url,fl=true,n=1;
+				_id = getUrlParams().id;
+				if(_id) {
+					_url = "http://sp.grsx.cc/ilsp-wechat/web/bet.do?id=" + _id;
+				} else {
+					_url = "http://sp.grsx.cc/ilsp-wechat/web/bet.do";
+				}
+				$.ajax({
+					type: "get",
+					url: _url,
+					async: true,
+					success: function(data) {
+						$.each(data.r, function(i, e) {
+							var html = '<tr><td>' + e.status + '</td>' +
+								'<td><img src="images/result' + e.statuscode + '.png" /></td>' +
+								'<td>' + e.d + '<br /> ' + e.vs + '<br /> 投注：' + ((e.letCount != 0) ? '让球（' + e.letCount + '）' : e.betResult) + '</td></tr>';
+							$(".zj_list").append(html);
+						})
+
+					}
+				});
+
+				$(document).on("scroll", function() {
+					var bodyheight = $(document.body).height();
+					var scorlltop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+					var viewheight = $(window).height();
+					//			console.log(bodyheight + " ===" + scorlltop + "=========" + viewheight);
+					if((scorlltop + viewheight) >= bodyheight) {
+						n++;
+						$(".shanghua").show();
+					}else{
+						$(".shanghua").hide();
+					}
+				});
+
+				function getUrlParams() {
+					var params = {};
+					var url = window.location.href;
+					var idx = url.indexOf("?");
+					if(idx > 0) {
+						var queryStr = url.substring(idx + 1);
+						var args = queryStr.split("&");
+						for(var i = 0, a, nv; a = args[i]; i++) {
+							nv = args[i] = a.split("=");
+							params[nv[0]] = nv.length > 1 ? nv[1] : true;
+						}
+					}
+					return params;
+				};
+			});
+		</script>
+	</body>
+
+</html>
